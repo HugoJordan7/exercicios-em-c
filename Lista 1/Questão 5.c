@@ -1,3 +1,5 @@
+/* 5. Construa um programa que recebe duas matrizes inteiras de ordem 2 e imprima a soma e
+a diferença entre elas.*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

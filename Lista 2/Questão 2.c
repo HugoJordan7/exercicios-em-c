@@ -1,40 +1,39 @@
-//Segunda Questão
+/* 2. Crie uma função que receba três notas de um aluno (em float) como parâmetro e uma letra. Se a
+letra for “A”, a função deve calcular a média aritmética das notas do aluno; se a letra for “P”, deverá
+calcular a média ponderada, com pesos 5, 3 e 2. Retorne a média calculada para o programa principal*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+float media(float nota1,float nota2,float nota3,char letra){
+    float mediaAritmetica;
+    float mediaPonderada;
+    if (letra == 'A' || letra == 'a'){
+        mediaAritmetica = (nota1 + nota2 + nota3) / 3;
+        return mediaAritmetica;
+    }
+    else if(letra == 'P' || letra == 'p'){
+        mediaPonderada = ((nota1*5) + (nota2*3) + (nota3*2)) / 10;
+        return mediaPonderada;
+    }
+}
+
 int main()
 {
-    int vetor[10];
-    int i,j,crescente,decrescente;
-    printf("Informe os dez numeros de um vetor \n");
-    for (i=0;i<10;i++){
-        printf("Informe o %d numero do vetor: \n",i+1);
-        scanf("%d",&vetor[i]);
-    }
-    
-    crescente = vetor[0];
-    for (i = 0; i <9;i++){
-        for (j= i + 1; j < 10;j++){
-            if (vetor[j] < vetor[i]){
-                crescente = vetor[i];
-                vetor[i] = vetor[j];
-                vetor[j] = crescente;
-                
-            }
-        }
-    }
-
-    printf("Vetor em ordem crescente: \n");
-    for (i=0;i<10;i++){
-        printf("%d ",vetor[i]);
-    }
-
-    printf("\n\nVetor em ordem decrescente: \n");
-    for (i=9;i>=0;i--){
-        printf("%d ",vetor[i]);
-    }
-
+    float n1,n2,n3, resultado;
+    char l;
+    printf("Informe 3 notas, em seguida informe a letra 'A' para calcular a media aritmetica ou 'P' para calcular a media ponderada com os pesos 5, 3 e 2 respectivamente. \n");
+    printf("Informe a letra: \n");
+    scanf("%c",&l);
+    printf("Informe a primeira nota: \n");
+    scanf("%f",&n1);
+    printf("Informe a segunda nota: \n");
+    scanf("%f",&n2);
+    printf("Informe a terceira nota: \n");
+    scanf("%f",&n3);
+    resultado = media(n1,n2,n3,l);
+    printf("A media foi: %.2f",resultado);
     return 0;
 }
+
 

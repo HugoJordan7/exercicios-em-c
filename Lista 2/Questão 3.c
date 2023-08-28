@@ -1,26 +1,19 @@
-//Terceira Questão
+/* 3. Construa um programa que leia uma palavra e a escreva de trás para frente.*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 int main()
 {
-    float notas[5][2];
+    char palavra[30];
+    
+    printf("Digite uma palavra: \n");
+    scanf("%s",&palavra);
+
+    printf("A palavra de tras para frente: \n");
     int i;
-    float medias[5];
-    for (i = 0; i < 5; i++){
-        printf("Informe as duas notas do %d aluno (separe por espaco): \n",i+1);
-        scanf("%f%f",&notas[i][0],&notas[i][1]);
-    }
-    for (i = 0; i < 5; i++){
-        medias[i] = (notas[i][0] + notas[i][1])/2;
-        printf("Media do %d aluno: %.2f\n",i+1,medias[i]);
-        if (medias[i] >= 7){
-            printf("O %d aluno foi aprovado!\n\n",i+1);
-        }
-        else {
-            printf("O %d aluno foi reprovado!\n\n",i+1);
-        }
+    for (i = strlen(palavra); i >= 0; i--){
+        printf("%c",palavra[i]);
     }
 
     return 0;

@@ -1,117 +1,147 @@
+/* 2. Crie um programa que controla uma fila escolar na hora da merenda. Para evitar que os alunos se
+aglomerem, a escola optou em criar um sistema em que os alunos retiram fichas, e com base no número da ficha, o aluno é chamado para pegar sua merenda. O programa recolhe algumas informações
+importantes como matrícula, nome e ano escolar da criança. Esta escola tem cerca de 100 alunos
+matriculados, porém a cada dia é feito uma contagem de alunos para que as cozinheiras preparem
+a quantidade de alimentos necessários. Então, solicite ao usuário que informe o número máximo
+de alunos que irão lanchar no dia. O programa tem três funções básicas: enfileirar, desenfileirar e
+mostrar conteúdo da fila.*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-struct contato {
-    char nome[30];
-    char telefone[30];
-    char endereco[30];
-    char profissao[30];
-    int idade;
-    char sexo[30];
-    char nascimento[30];
+#ifdef _WIN32 //condicao que verifica se o sistema eh windows
+#define CLEAR_SCREEN "cls"
+#else //se nao for entao:
+#define CLEAR_SCREEN "clear" //system(clear) ->  eh utilizados em sistemas baseados em UNIX como o linux
+#endif //fim da condicao
+
+#define tam 100
+
+struct aluno {
+    char nome[40];
+    char matricula[40];
+    char ano[40];
 };
 
-struct contato lista[10];
+struct filaAlunos {
+    struct aluno dados[tam];
+    int inicio;
+    int fim;
+};
 
-void gravar_noarquivo();
+struct filaAlunos fila;
+int quant = 0;
+int controle = 0;
 
-void ler_arquivo();
+void enfileirar();
+void desenfileirar();
+void imprimirFila();
+int pausarTela();
 
-FILE *arq;
+int main()
+{
+    printf("- Fila da merenda -\n\nInforme a quantidade maxima de alunos para a fila do lanche do dia: ");
+    scanf("%d",&quant);
+    system(CLEAR_SCREEN);
 
-int main(){
-    int comando;
-    do{
-    	printf("- Menu principal -\n1 - Gravar o contato de 10 pessoas em uma lista em um arquivo \n2 - Ler o arquivo \n3 - Parar o programa\n\n");
-        printf("Informe um comando: ");
-        scanf("%d",&comando);
-        getchar();
-        switch(comando){
+    do {
+        printf("- Fila da merenda -\nDigite 0 - Para parar o programa\nDigite 1 - Para adicionar um aluno na fila\nDigite 2 - Para retirar um aluno da fila\nDigite 3 - Para exibir o conteudo da fila\n\n");
+        printf("Informe o comando: ");
+        scanf("%d", &controle);
+        printf("\n");
+        
+        switch (controle) {
+            case 0:
+                break;
             case 1:
-                gravar_noarquivo();
-            break;
+                enfileirar();
+                break;
             case 2:
-                ler_arquivo();
-            break;
+                desenfileirar();
+                break;
             case 3:
-                printf("Programa encerrado!\n");
-            break;
+                imprimirFila();
+                break;
             default:
-                printf("Comando invalido!\n");
+                printf("Comando invalido!\n\n");
+                getchar();
+                pausarTela();
+                break;
         }
-       
-    } while(comando != 3);
-   
-
+        system(CLEAR_SCREEN);
+        
+    } while (controle != 0);
+    printf("- Programa encerrado -\n");
     return 0;
 }
 
-
-void gravar_noarquivo(){
-    int i;
-    arq = fopen("Arquivo.txt","w");
-    if(arq == NULL){
-        printf("Erro ao abrir o arquivo!\n");
-    } else{
-        printf("Informe os dados dos 10 contatos!\n\n");
-        fprintf(arq,"Lista de contatos\n\n");
-        for (i = 0; i<10;i++){
-            printf("- Dados do %d contato -\n",i+1);
-            fprintf(arq,"- %d contato -\n\n",i+1);
-            
-            printf("Nome: ");
-            fgets(lista[i].nome,30,stdin);
-            fprintf(arq,"Nome: %s",lista[i].nome);
-            
-            
-            printf("Numero: ");
-            fgets(lista[i].telefone,30,stdin);
-            fprintf(arq,"Numero: %s",lista[i].telefone);
-            
-            printf("Endereco: ");
-            fgets(lista[i].endereco,30,stdin);
-            fprintf(arq,"Endereco: %s",lista[i].endereco);
-            
-            printf("Profissao: ");
-            fgets(lista[i].profissao,30,stdin);
-            fprintf(arq,"Profissao: %s",lista[i].profissao);
-            
-            printf("Idade: ");
-            scanf("%d",&lista[i].idade);
-            getchar();
-            fprintf(arq,"Idade: %d\n",lista[i].idade);
-            
-
-            printf("Sexo: ");
-            fgets(lista[i].sexo,30,stdin);
-            fprintf(arq,"Sexo: %s",lista[i].sexo);
-            
-            printf("Data de nascimento(xx/xx/xxxx): ");
-            fgets(lista[i].nascimento,30,stdin);
-            fprintf(arq,"Data de nascimento: %s\n\n",lista[i].nascimento);
-            printf("\n\n");
-        }
-    }
-    fclose(arq);
+void enfileirar()
+{
+    getchar();
+    if (fila.fim == quant) {
+        printf("A fila está cheia!\n");
+        pausarTela();
+    } else {
+        printf("Informe o nome do aluno: ");
+        fgets(fila.dados[fila.fim].nome, 40, stdin);
+        printf("Informe a matricula do aluno: ");
+        fgets(fila.dados[fila.fim].matricula, 40, stdin);
+        printf("Informe o ano escolar do aluno: ");
+        fgets(fila.dados[fila.fim].ano, 40, stdin);
+        fila.fim++;
+    } 
 }
 
-void ler_arquivo(){
-    char imprimir[30];
-    arq = fopen("Arquivo.txt","r");
-    if(arq == NULL){
-        printf("Erro ao ler o arquivo!\n\n");
-    } else{
-        while(fgets(imprimir,30,arq) != NULL){
-            printf("%s",imprimir);
+void desenfileirar()
+{
+    getchar();
+    if (fila.fim == 0) {
+        printf("A fila esta vazia!\n");
+        pausarTela();
+    } else {
+        fila.fim--;
+        //Movendo o conteudo do fim para o indice anterior em todos os elementos da fila
+        int i;
+        for (i = 0; i < fila.fim; i++){
+            strcpy(fila.dados[i].nome, fila.dados[i+1].nome);
+            strcpy(fila.dados[i].matricula, fila.dados[i+1].matricula);
+            strcpy(fila.dados[i].ano, fila.dados[i+1].ano);
         }
-        fclose(arq);
+        //Limpando a antiga posicao do ultimo
+        strcpy(fila.dados[fila.fim].nome, "");
+        strcpy(fila.dados[fila.fim].matricula, "");
+        strcpy(fila.dados[fila.fim].ano, "");
     }
-
 }
 
+void imprimirFila()
+{
+    getchar();
+    if (fila.fim == 0) {
+        printf("A fila esta vazia!\n");
+    } else {
+        int i;
+        printf("Ordem dos alunos na fila: \n\n");
+        for (i = 0; i < fila.fim; i++) {
+            printf("- %d aluno -\n", i + 1);
+            printf("Nome: %s", fila.dados[i].nome);
+            printf("Matricula: %s", fila.dados[i].matricula);
+            printf("Ano: %s\n\n", fila.dados[i].ano);
+        }
+    }
+    pausarTela();
+}
 
-
+int pausarTela(){
+    if (strcmp(CLEAR_SCREEN,"cls") == 0){ //condicao para pausar a tela no windows
+        system("pause");
+        return 0;
+    } else if (strcmp(CLEAR_SCREEN,"clear") == 0){ //em sistemas baseados em UNIX(ex: Linux)
+        printf("Pressione Enter para continuar...");
+        getchar();
+    }
+}
 
 
 

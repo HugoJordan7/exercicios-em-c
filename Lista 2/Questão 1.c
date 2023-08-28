@@ -1,26 +1,26 @@
+/* 1. Crie uma função que receba um valor inteiro e verifique se o valor é par. A função retorna 1 se o
+número for par e 0 se for ímpar. Teste a lógica da função no programa principal.*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+int parOuImpar(int num){
+    if (num % 2 == 0){
+        return 1;
+    }
+    else if (num % 2 != 0){
+        return 0;
+    }
+}
+
 int main()
 {
-    int tam = 40;
-    char palavras [tam];
-    printf("Informe os 3 nomes: \n");
-    fgets(palavras,tam,stdin);
-    int quantA = 0, quantE = 0;
-    int i;
-    for (i=0;i<tam;i++){
-        if (palavras [i] == 'A' || palavras[i] == 'a'){
-            quantA++;
-        }
-        else if(palavras [i] == 'E' || palavras [i] == 'e'){
-            quantE++;
-        }
-    }
-    
-    printf("Quantidade de A nos nomes: %d\n",quantA);
-    printf("Quantidade de E nos nomes: %d\n",quantE);
+    int numero, resultado;
+    printf("1 - par e 0 - impar \n");
+    printf("Informe o numero inteiro: \n");
+    scanf("%d",&numero);
+    resultado = parOuImpar(numero);
+    printf("%d",resultado);
 
     return 0;
 }
