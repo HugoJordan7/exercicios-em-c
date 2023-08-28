@@ -1,4 +1,4 @@
-# Listas de exercício em Linguagem C
+# Listas de exercícios em Linguagem C
 
 * [**Lista 01 :** Laços, condições, vetores e matrizes.](https://github.com/HugoJordan7/exercicios-em-c/tree/main/Lista%201)
 * [**Lista 02 :** Funções e estruturas.](https://github.com/HugoJordan7/exercicios-em-c/tree/main/Lista%202)
